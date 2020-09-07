@@ -1,0 +1,186 @@
+<!-- <form [formGroup]="userProfileForm" (ngSubmit)="onSubmit()">
+  <div class="form-group">
+    <label for="firstname">First Name:</label>
+    <input type="text" class="form-control" formControlName="firstName">
+    <div *ngIf="userProfileForm.controls['firstName'].invalid && (userProfileForm.controls['firstName'].dirty
+    || userProfileForm.controls['firstName'].touched)">
+      <div *ngIf="userProfileForm.controls['firstName'].errors.required">
+      First Name is required.
+    </div>
+  </div>
+  </div>
+
+  <div class="form-group">
+    <label for="firstname">Last Name:</label>
+    <input type="text" class="form-control" formControlName="lastName">
+    <div *ngIf="userProfileForm.controls['lastName'].invalid && (userProfileForm.controls['lastName'].dirty
+    || userProfileForm.controls['lastName'].touched)">
+      <div *ngIf="userProfileForm.controls['lastName'].errors.required">
+      Last Name is required.
+      </div>
+      </div>
+  </div>
+
+  <div class="form-group">
+    <label for="email">Email:</label>
+    <input type="text" class="form-control" formControlName="email">
+    <div *ngIf="userProfileForm.controls['email'].invalid && (userProfileForm.controls['email'].dirty
+    || userProfileForm.controls['email'].touched)">
+      <div *ngIf="userProfileForm.controls['email'].errors.required">
+      Email is required.
+     </div>
+     </div>
+  </div>
+
+  <div class="form-group">
+    <label for="password">Password:</label>
+    <input type="password" class="form-control" formControlName="password">
+    <div *ngIf="userProfileForm.controls['password'].invalid && (userProfileForm.controls['password'].dirty
+    || userProfileForm.controls['password'].touched)">
+      <div *ngIf="userProfileForm.controls['password'].errors.required">
+      Password is required.
+     </div>
+     </div>
+  </div>
+
+  <div class="form-group">
+    <label for="phoneNumber">Phone Number:</label>
+    <input type="number" class="form-control" formControlName="phoneNumber">
+    <div *ngIf="userProfileForm.controls['phoneNumber'].invalid && (userProfileForm.controls['phoneNumber'].dirty
+    || userProfileForm.controls['phoneNumber'].touched)">
+      <div *ngIf="userProfileForm.controls['phoneNumber'].errors.required">
+      Phone Number is required.
+     </div>
+     </div>
+  </div>
+  <div class="form-group">
+    <button type="submit" [disabled]="!userProfileForm.valid">Submit</button>
+  </div>
+
+</form> -->
+<div class="container">
+
+<button class="btn btn-primary" (click)="AddUser()">Add User</button>
+<hr>
+<h6>User Details</h6>
+
+<div class="modal"  id="userModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Add User</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="userProfileForm" (ngSubmit)="onSubmit()">
+          <div class="form-group">
+            <label for="firstname">First Name:</label>
+            <input type="text" class="form-control" formControlName="firstName">
+            <!-- <div *ngIf="userProfileForm.controls['firstName'].invalid && (userProfileForm.controls['firstName'].dirty
+            || userProfileForm.controls['firstName'].touched)">
+              <div *ngIf="userProfileForm.controls['firstName'].errors.required">
+              First Name is required.
+            </div> -->
+            <span
+            *ngIf="!userProfileForm.get('firstName').valid && userProfileForm.get('firstName').touched"
+             class="help-block">Please enter a valid name</span>
+          <!-- </div> -->
+          </div>
+
+          <div class="form-group">
+            <label for="lastName">Last Name:</label>
+            <input type="text" class="form-control" formControlName="lastName">
+            <!-- <div *ngIf="userProfileForm.controls['lastName'].invalid && (userProfileForm.controls['lastName'].dirty
+            || userProfileForm.controls['lastName'].touched)">
+              <div *ngIf="userProfileForm.controls['lastName'].errors.required">
+              Last Name is required.
+              </div>
+              </div> -->
+              <span
+              *ngIf="!userProfileForm.get('lastName').valid && userProfileForm.get('lastName').touched"
+               class="help-block">Please enter a valid name</span>
+          </div>
+
+          <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="text" class="form-control" formControlName="email">
+            <!-- <div *ngIf="userProfileForm.controls['email'].invalid && (userProfileForm.controls['email'].dirty
+            || userProfileForm.controls['email'].touched)">
+              <div *ngIf="userProfileForm.controls['email'].errors.required">
+              Email is required.
+             </div>
+             </div> -->
+             <span
+             *ngIf="!userProfileForm.get('email').valid && userProfileForm.get('email').touched"
+              class="help-block">Please enter a valid Email</span>
+          </div>
+
+          <div class="form-group">
+            <label for="password">Password:</label>
+            <input type="password" class="form-control" formControlName="password">
+            <!-- <div *ngIf="userProfileForm.controls['password'].invalid && (userProfileForm.controls['password'].dirty
+            || userProfileForm.controls['password'].touched)">
+              <div *ngIf="userProfileForm.controls['password'].errors.required">
+              Password is required.
+             </div>
+             </div> -->
+             <span
+             *ngIf="!userProfileForm.get('password').valid && userProfileForm.get('password').touched"
+              class="help-block">Password must contain at least 1 uppercase letter, 1 lowercase, 1 numeric, 1 special character</span>
+          </div>
+
+          <div class="form-group">
+            <label for="phoneNumber">Phone Number:</label>
+            <input type="number" class="form-control" formControlName="phoneNumber">
+            <!-- <div *ngIf="userProfileForm.controls['phoneNumber'].invalid && (userProfileForm.controls['phoneNumber'].dirty
+            || userProfileForm.controls['phoneNumber'].touched)">
+              <div *ngIf="userProfileForm.controls['phoneNumber'].errors.required">
+              Phone Number is required.
+             </div>
+             </div> -->
+             <span
+             *ngIf="!userProfileForm.get('phoneNumber').valid && userProfileForm.get('phoneNumber').touched"
+              class="help-block">Please enter a valid Phone Number</span>
+          </div>
+          <!-- <div class="form-group">
+            <button type="submit">Submit</button>
+          </div> -->
+
+        </form>
+
+
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-primary"  [disabled]="!userProfileForm.valid" (click)="onSubmit()">Save</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div style="padding:15px;font-size: 13px; width: 100%;" class="table-responsive"
+   *ngIf="users.length">
+
+  <table class="table futhr_bkn_tbl" id="sort_table">
+    <thead>
+      <tr>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Email</th>
+        <th>Phone No.</th>
+
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor = "let user of users">
+        <td><span>{{user.firstName}}</span></td>
+        <td><span>{{user.lastName}}</span></td>
+        <td><span>{{user.email}}</span></td>
+        <td><span>{{user.phoneNumber}}</span></td>
+      </tr>
+    </tbody>
+  </table>
+</div>

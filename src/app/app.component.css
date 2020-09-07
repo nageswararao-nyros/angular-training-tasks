@@ -1,0 +1,28 @@
+.container{
+  margin-top: 30px;
+}
+input.ng-invalid.ng-touched{
+  border: 1px solid red;
+}
+
+.help-block{
+  color:red
+}
+.modal {
+  padding: 15px 5px;
+  font-size: 11px;
+  background: #f4f4fb;
+  overflow: hidden;
+}
+@media only screen and (max-width:1440px){
+  .future_bookings_blk .futhr_bkn_tbl thead tr th{
+     padding: 15px 5px;
+     font-size: 11px;
+  }
+}
+.future_bookings_blk .futhr_bkn_tbl thead tr{background: #f4f4fb}
+.future_bookings_blk .futhr_bkn_tbl thead tr th{border: 0!important;font-size: 13px;color: #8f92a9!important;padding: 15px 8px;}
+.future_bookings_blk .futhr_bkn_tbl tbody tr td{border: 0!important;padding: 15px 7px;font-weight: normal;font-size: 13px;
+overflow: hidden;}
+
+.future_bookings_blk .futhr_bkn_tbl {margin-bottom: 12px;}
