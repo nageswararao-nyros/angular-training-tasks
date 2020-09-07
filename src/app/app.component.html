@@ -60,15 +60,14 @@
 </form> -->
 <div class="container">
 
-<button class="btn btn-primary" (click)="AddUser()">Add User</button>
-<hr>
-<h6>User Details</h6>
+<!-- <button class="btn btn-primary" (click)="AddUser()">Add User</button> -->
+<!-- <hr> -->
 
-<div class="modal"  id="userModal" tabindex="-1" role="dialog">
+<div class="modal"  id="userModal" role="dialog">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">Add User</h5>
+        <h5>Add User</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -91,7 +90,7 @@
 
           <div class="form-group">
             <label for="lastName">Last Name:</label>
-            <input type="text" class="form-control" formControlName="lastName">
+            <input type="text" class="form-control" formControlName="lastName" >
             <!-- <div *ngIf="userProfileForm.controls['lastName'].invalid && (userProfileForm.controls['lastName'].dirty
             || userProfileForm.controls['lastName'].touched)">
               <div *ngIf="userProfileForm.controls['lastName'].errors.required">
@@ -105,7 +104,7 @@
 
           <div class="form-group">
             <label for="email">Email:</label>
-            <input type="text" class="form-control" formControlName="email">
+            <input type="text" class="form-control" formControlName="email" >
             <!-- <div *ngIf="userProfileForm.controls['email'].invalid && (userProfileForm.controls['email'].dirty
             || userProfileForm.controls['email'].touched)">
               <div *ngIf="userProfileForm.controls['email'].errors.required">
@@ -119,7 +118,7 @@
 
           <div class="form-group">
             <label for="password">Password:</label>
-            <input type="password" class="form-control" formControlName="password">
+            <input type="text" class="form-control" formControlName="password">
             <!-- <div *ngIf="userProfileForm.controls['password'].invalid && (userProfileForm.controls['password'].dirty
             || userProfileForm.controls['password'].touched)">
               <div *ngIf="userProfileForm.controls['password'].errors.required">
@@ -129,6 +128,24 @@
              <span
              *ngIf="!userProfileForm.get('password').valid && userProfileForm.get('password').touched"
               class="help-block">Password must contain at least 1 uppercase letter, 1 lowercase, 1 numeric, 1 special character</span>
+          </div>
+          <div class="form-group">
+            <label for="confirmPassword">Conform Password:</label>
+            <input type="text" class="form-control" formControlName="confirmPassword">
+            <!-- <div *ngIf="userProfileForm.controls['password'].invalid && (userProfileForm.controls['password'].dirty
+            || userProfileForm.controls['password'].touched)">
+              <div *ngIf="userProfileForm.controls['password'].errors.required">
+              Password is required.
+             </div>
+             </div> -->
+             <!-- <span
+             *ngIf="!userProfileForm.get('password').valid && userProfileForm.get('password').touched"
+              class="help-block">Password must contain at least 1 uppercase letter, 1 lowercase, 1 numeric, 1 special character</span> -->
+              <span
+             *ngIf="!userProfileForm.get('confirmPassword').valid && 
+                     userProfileForm.get('confirmPassword').touched &&
+                     userProfileForm.get('confirmPassword').hasError('invalid')"
+              class="help-block">Passwords do not match</span>
           </div>
 
           <div class="form-group">
@@ -153,16 +170,45 @@
 
       </div>
       <div class="modal-footer">
-        <button type="submit" class="btn btn-primary"  [disabled]="!userProfileForm.valid" (click)="onSubmit()">Save</button>
+        <button type="submit" class="btn btn-primary"  [disabled]="!userProfileForm.valid" (click)="onSubmit()">
+        {{buttonName}}</button>
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
       </div>
     </div>
   </div>
 </div>
 
+<div class="row future_bookings_blk futre_data_tbl" style="margin: 15px 0px;">
+<div style="padding:15px;font-size: 13px; width: 100%;" class="table-responsive">
+   <h3 class="blk_ttl">Users Info.
+   <div id="btnContainer">
+   <button class="btn" (click)="AddUser()"><i class="fa fa-user-plus"></i></button> 
+   </div>
+   </h3>
 
-<div style="padding:15px;font-size: 13px; width: 100%;" class="table-responsive"
-   *ngIf="users.length">
+   <div class="search-filters">
+    <div class="row">
+      <div class="col-md-4"></div>
+      <div class="col-md-2">
+        <input type="text" class="form-control input-sm" placeholder="Search By Frst Name"
+         [(ngModel)] = "firstname">
+      </div>
+       <div class="col-md-2">
+        <input type="text" class="form-control input-sm" placeholder="Search By Last Name"
+         [(ngModel)]="lastName">
+      </div>
+       <div class="col-md-2">
+        <input type="text" class="form-control input-sm" placeholder="Search By Email..."
+        [(ngModel)]="email">
+      </div>
+      <div class="col-md-2">
+        <input type="number" class="form-control input-sm" placeholder="Search By Phone..."
+        [(ngModel)]="mobile">
+      </div>
+    </div>
+
+   </div>
+   <hr>
 
   <table class="table futhr_bkn_tbl" id="sort_table">
     <thead>
@@ -171,16 +217,41 @@
         <th>Last Name</th>
         <th>Email</th>
         <th>Phone No.</th>
+        <th>Edit/Delete</th>
 
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor = "let user of users">
+      <tr *ngFor = "let user of users | searchFilter : firstname : lastName : email : mobile">
         <td><span>{{user.firstName}}</span></td>
         <td><span>{{user.lastName}}</span></td>
         <td><span>{{user.email}}</span></td>
         <td><span>{{user.phoneNumber}}</span></td>
+        <td>
+          <button (click)="editUser(user)">Edit</button>&nbsp;
+          <button (click)="DeleteUser(user)">Delete</button>
+       </td>
       </tr>
     </tbody>
   </table>
 </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

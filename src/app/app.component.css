@@ -4,21 +4,57 @@
 input.ng-invalid.ng-touched{
   border: 1px solid red;
 }
+::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+  font-size: 12px;
+
+   padding: 15px 5px;
+}
+.search-filters input
 
 .help-block{
   color:red
 }
 .modal {
   padding: 15px 5px;
-  font-size: 11px;
+  font-size: 14px;
   background: #f4f4fb;
-  overflow: hidden;
+  overflow: scroll;
 }
+.form-group {
+  margin-top: -9px;
+  font-size: 12px;
+  padding: 0px;
+
+}
+
 @media only screen and (max-width:1440px){
   .future_bookings_blk .futhr_bkn_tbl thead tr th{
      padding: 15px 5px;
      font-size: 11px;
   }
+}
+.future_bookings_blk {
+     margin: 10px 0px;
+     background-color: #fff;
+     border-radius: 5px;
+     margin-top: 15px;
+     box-shadow: 0px 0px 6px 2px #ccc;
+ }
+
+ .future_bookings_blk .blk_ttl {
+     margin-bottom: 15px;
+     font-size: 20px;
+     background: #1ba655;
+     padding: 11px;
+     border-radius: 5px 5px 0px 0px;
+     color: #fff;
+     overflow: hidden;
+ }
+.modal-footer {
+  padding: 2px
+}
+.modal-header {
+  padding: 10px
 }
 .future_bookings_blk .futhr_bkn_tbl thead tr{background: #f4f4fb}
 .future_bookings_blk .futhr_bkn_tbl thead tr th{border: 0!important;font-size: 13px;color: #8f92a9!important;padding: 15px 8px;}
@@ -26,3 +62,17 @@ input.ng-invalid.ng-touched{
 overflow: hidden;}
 
 .future_bookings_blk .futhr_bkn_tbl {margin-bottom: 12px;}
+ .future_bookings_blk .blk_ttl span{float: right;font-size: 16px;margin-top: 3px;}
+ .future_bookings_blk .blk_ttl span a{margin: 5px;border: 1px solid #fff;padding: 5px;border-radius: 3px;color: #fff;}
+
+@media only screen and (max-width:485px) {
+   #btnContainer{margin-top: 20px;}
+}
+#btnContainer{float: right;padding-right: 14px;}
+#btnContainer .btn.active, .btn:active{background: #4da755;color: #fff;}
+
+#btnContainer{position: relative;top: -1px;}
+#btnContainer .btn{background: none;box-shadow: none;opacity: 0.5;padding: 0;margin-left: 15px;margin-right: 15px;}
+#btnContainer .btn:hover{color: #fff;}
+#btnContainer .btn i{font-size: 20px;}
+#btnContainer .btn.active{background: none;box-shadow: none;opacity: 1;}

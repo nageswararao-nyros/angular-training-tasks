@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-
-import { FormGroup,FormControl, Validators} from '@angular/forms';
+import { FormGroup,FormControl, AbstractControl,Validators, ValidatorFn, ValidationErrors, Validator} from '@angular/forms';
 import { UsersService } from './users.service';
 
 declare var $: any
@@ -11,29 +10,45 @@ declare var $: any
 })
 
 export class AppComponent implements OnInit {
+  userProfileForm : FormGroup;
+  isFromEditMode : boolean = false;
+  firstname ="";
+  lastName = "";
+  email = "";
+  mobile=0;
+  buttonName = 'Save'
   constructor(private userService : UsersService) {
-
-  }
-  title = 'Angular-Training';
-
-  userProfileForm = new FormGroup({
-
+    this.userProfileForm = new FormGroup({
+    id:new FormControl(null),
     firstName: new FormControl("",Validators.required),
     lastName: new FormControl("",Validators.required),
     email: new FormControl("",[Validators.required,Validators.email]),
     password : new FormControl("",
        [Validators.required,
         Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,}')]),
+    confirmPassword : new FormControl("",[Validators.required,
+        Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,}')]),
     phoneNumber : new FormControl("",
        [Validators.required,
         Validators.pattern("^((\\+91-?)|0)?[0-9]{10}$")])
-  });
+    },{
+      validators:this.passwordErrorValidator
+    });
+  }
+  title = 'Angular-Training';
+
+
   users :any;
   ngOnInit() {
-
     $("#userModal").modal('hide');
     this.getUsers();
+  }
 
+  passwordErrorValidator(c: AbstractControl) : ValidationErrors | null {
+    if(c.get('password').value !== c.get('confirmPassword').value){
+      return {invalid : true} 
+    } 
+    return null;
   }
   getUsers(){
     this.userService.getUsers().subscribe(response =>{
@@ -49,6 +64,19 @@ export class AppComponent implements OnInit {
     })
   }
   onSubmit() {
+    if(this.isFromEditMode == true) {
+      let userData = this.userProfileForm.value;
+      this.userService.updateUser(userData).subscribe((response:any)=>{
+        if(response.status===200){
+        this.userProfileForm.reset();
+        console.log("success");
+        this.getUsers();
+        $("#userModal").modal('hide');
+        }
+      },err =>{
+      console.log(err)
+      })
+    }
     console.log(this.userProfileForm.value);
     let userData = this.userProfileForm.value;
     this.userService.addUser(userData).subscribe((response:any)=>{
@@ -58,8 +86,6 @@ export class AppComponent implements OnInit {
         this.getUsers();
         $("#userModal").modal('hide');
       }
-
-
     },err =>{
       console.log(err)
     })
@@ -67,7 +93,30 @@ export class AppComponent implements OnInit {
   AddUser() {
     this.userProfileForm.reset();
     $("#userModal").modal('show');
+  }
 
+  editUser(user) {
+    console.log(user);
+    this.isFromEditMode = true;
+    this.buttonName= "Update";
+    $("#userModal").modal('show');
+    this.userProfileForm.controls.firstName.setValue(user.firstName);
+    this.userProfileForm.controls.lastName.setValue(user.lastName);
+    this.userProfileForm.controls.email.setValue(user.email);
+    this.userProfileForm.controls.password.setValue(user.password);
+    this.userProfileForm.controls.confirmPassword.setValue(user.confirmPassword);
+    this.userProfileForm.controls.phoneNumber.setValue(user.phoneNumber);
+    this.userProfileForm.controls.id.setValue(user.id)
+  }
+  DeleteUser(user) {
+    
+    this.userService.deleteUser(user.id).subscribe((response : any) => {
+      console.log(response);
+      if(response.status===200){
+        console.log("deleted");
+        this.getUsers();
+      }
+    })
 
   }
 }
