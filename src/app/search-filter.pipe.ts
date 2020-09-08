@@ -19,12 +19,10 @@ export class SearchFilterPipe implements PipeTransform {
          if(searchByEmail &&  user.email.toLowerCase().indexOf(searchByEmail.toLowerCase())===-1){
           return false;
         }
-        // if(searchByPhone &&  user.phoneNumber.indexOf(searchByPhone)===-1){
-        //   return false;
-        // }
-
+        if(searchByPhone && user.phoneNumber.toString().indexOf(searchByPhone.toString())===-1){
+        	return false;
+        }
         
-
         return true;
       })
     }
@@ -34,3 +32,4 @@ export class SearchFilterPipe implements PipeTransform {
   }
 
 }
+

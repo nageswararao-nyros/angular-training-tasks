@@ -15,7 +15,7 @@ export class AppComponent implements OnInit {
   firstname ="";
   lastName = "";
   email = "";
-  mobile=0;
+  mobile="";
   buttonName = 'Save'
   constructor(private userService : UsersService) {
     this.userProfileForm = new FormGroup({
@@ -30,14 +30,11 @@ export class AppComponent implements OnInit {
         Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,}')]),
     phoneNumber : new FormControl("",
        [Validators.required,
-        Validators.pattern("^((\\+91-?)|0)?[0-9]{10}$")])
-    },{
-      validators:this.passwordErrorValidator
-    });
+        Validators.pattern("^((\\+91-?)|0)?[0-9]{10}$")]),
+    },{validators:this.passwordErrorValidator});
+   
   }
   title = 'Angular-Training';
-
-
   users :any;
   ngOnInit() {
     $("#userModal").modal('hide');
@@ -46,10 +43,12 @@ export class AppComponent implements OnInit {
 
   passwordErrorValidator(c: AbstractControl) : ValidationErrors | null {
     if(c.get('password').value !== c.get('confirmPassword').value){
+      c.get('confirmPassword').setErrors({invalid:true});
       return {invalid : true} 
     } 
     return null;
   }
+
   getUsers(){
     this.userService.getUsers().subscribe(response =>{
       if(response.status===200){
@@ -76,6 +75,7 @@ export class AppComponent implements OnInit {
       },err =>{
       console.log(err)
       })
+
     }
     console.log(this.userProfileForm.value);
     let userData = this.userProfileForm.value;
