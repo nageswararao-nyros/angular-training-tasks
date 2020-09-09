@@ -7,9 +7,8 @@ export class SearchFilterPipe implements PipeTransform {
 
 	transform(users :any[],searchByFirstName :string,searchByLastName : string,searchByEmail: string,
 		searchByPhone : number) {
-
 		if(users && users.length){
-			return users.filter(user  =>{
+			return users.filter(user => {
 				if(searchByFirstName &&  user.firstName.toLowerCase().indexOf(searchByFirstName.toLowerCase())===-1){
 					return false;
 				}
