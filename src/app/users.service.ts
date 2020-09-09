@@ -4,15 +4,14 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
+// https://www.freecodecamp.org/news/how-to-validate-angular-reactive-forms/
 export class UsersService {
-
   URL:string ='http://localhost:3000';
-
   constructor(private http: HttpClient) { }
 
   public getUsers(): Observable<HttpResponse<any>> {
-     const url = this.URL+'/users';
-     return this.http.get<any>(url,{observe : 'response'})
+    const url = this.URL+'/users';
+    return this.http.get<any>(url,{observe : 'response'})
   }
   //*******update user************
   public addUser(userData): Observable<HttpResponse<any>> {
