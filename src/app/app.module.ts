@@ -15,6 +15,9 @@ import { UsersComponent } from './users/users.component';
 import { HeaderComponent } from './header/header.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { UserDetailComponent } from './user-detail/user-detail.component';
+import { LoginComponent } from './login/login.component';
+import { Authguard } from './auth-guard.service';
+import { AuthService } from './auth.service'
 
 @NgModule({
   declarations: [
@@ -24,7 +27,8 @@ import { UserDetailComponent } from './user-detail/user-detail.component';
   UsersComponent,
   HeaderComponent,
   PageNotFoundComponent,
-  UserDetailComponent
+  UserDetailComponent,
+  LoginComponent
   ],
   imports: [
   BrowserModule,
@@ -33,7 +37,7 @@ import { UserDetailComponent } from './user-detail/user-detail.component';
   HttpClientModule,
   AppRoutingModule
   ],
-  providers: [UsersService,CustomValidatorService],
+  providers: [UsersService,CustomValidatorService,Authguard,AuthService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
