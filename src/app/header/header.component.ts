@@ -7,10 +7,13 @@ import {Router} from '@angular/router'
 	styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
-
+    showSignout :boolean;
 	constructor(private router : Router) { }
 
 	ngOnInit(): void {
+		if(localStorage.getItem("user")){
+			this.showSignout = true;
+		}
 	}
 	onSignOut() {
 		console.log("logout")
