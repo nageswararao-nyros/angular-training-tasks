@@ -13,6 +13,11 @@ export class UsersService {
     const url = this.URL+'/users';
     return this.http.get<any>(url,{observe : 'response'})
   }
+
+   public getUser(userID): Observable<HttpResponse<any>> {
+    const url = this.URL+'/users'+'/'+userID;
+    return this.http.get<any>(url,{observe : 'response'})
+  }
   //*******update user************
   public addUser(userData): Observable<HttpResponse<any>> {
     let params= new HttpParams();
