@@ -1,132 +1,64 @@
 
 <div class="container">
-  <div class="modal"  id="userModal" role="dialog">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5>{{headerName}}</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
+  <!-- TABLE FOR SHOWING USERS HEADERS BLOCK -->
+  <!-- HEADER -->
+  <div class="row future_bookings_blk futre_data_tbl" style="margin: 15px 0px;">
+    <div style="padding:15px;font-size: 13px; width: 100%;" class="table-responsive">
+     <h3 class="blk_ttl">Users Info.
+       <div id="btnContainer">
+         <button class="btn" [disabled]="!selectedUser" (click)="viewUser()"><i class="fa fa-eye"></i></button>
+         <button class="btn" (click)="AddUser()"><i class="fa fa-user-plus"></i></button> 
+       </div>
+     </h3>
+    <!--FILTERS BLOCK  -->
+     <div class="search-filters">
+      <div class="row">
+        <div class="col-md-4"></div>
+        <div class="col-md-2">
+          <input type="text" class="form-control input-sm" placeholder="Search By Frst Name"
+          [(ngModel)] = "firstname">
         </div>
-        <div class="modal-body">
-          <form [formGroup]="userProfileForm">
-            <div class="row">
-              <div class="col-md-6">
-                <div class="form-group">
-                  <label for="firstname">First Name:</label>
-                  <input type="text" class="form-control" formControlName="firstName">
-                  <span *ngIf="checkValidation && userProfileForm.controls['firstName'].status=='INVALID'"
-                  class="help-block">Please enter a valid name..</span>
-
-                </div>
-              </div>
-
-              <div class="form-group">
-                <label for="lastName">Last Name:</label>
-                <input type="text" class="form-control" formControlName="lastName">
-                <span *ngIf="checkValidation && userProfileForm.controls['lastName'].status=='INVALID'" class="help-block">lease enter a valid name</span>
-              </div>
-            </div>
-
-            <div class="form-group">
-              <label for="email">Email:</label>
-              <input type="text" class="form-control" formControlName="email" >
-              <span
-              *ngIf= "checkValidation && 
-              userProfileForm.controls['email'].status=='INVALID'"
-              class="help-block">Please enter a valid Email</span>
-            </div>
-            <div class="form-group">
-              <label for="phoneNumber">Phone Number:</label>
-              <input type="number" class="form-control" formControlName="phoneNumber">
-              <span *ngIf="checkValidation && userProfileForm.controls['phoneNumber'].status=='INVALID'">Please enter a valid Phone Number</span>
-            </div>
-
-            <div class="form-group">
-              <label for="password">Password:</label>
-              <input type="password" class="form-control" formControlName="password">
-              <span *ngIf= "checkValidation && 
-              userProfileForm.controls['password'].status=='INVALID'">Password should have minimum 8 characters, at least 1 uppercase letter, 1 lowercase letter and 1 number</span>
-            </div>
-            <div class="form-group">
-              <label for="confirmPassword">Confirm Password:</label>
-              <input type="password" class="form-control" formControlName="confirmPassword">
-
-              <span
-              *ngIf="checkValidation && 
-              userProfileForm.controls['confirmPassword'].status=='INVALID'"
-              class="help-block">Passwords does not match.
-            </span>
-
-          </div>
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button type="submit" class="btn btn-success" (click)="onSubmit()">
-        {{buttonName}}</button>
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <div class="col-md-2">
+          <input type="text" class="form-control input-sm" placeholder="Search By Last Name"
+          [(ngModel)]="lastName">
+        </div>
+        <div class="col-md-2">
+          <input type="text" class="form-control input-sm" placeholder="Search By Email..."
+          [(ngModel)]="email">
+        </div>
+        <div class="col-md-2">
+          <input type="number" class="form-control input-sm" placeholder="Search By Phone..."
+          [(ngModel)]="mobile">
+        </div>
       </div>
     </div>
+    <hr>
+    <!-- TABLE BLOCK -->
+    <table class="table futhr_bkn_tbl" id="sort_table">
+      <thead>
+        <tr>
+          <th></th>
+          <th>First Name</th>
+          <th>Last Name</th>
+          <th>Email</th>
+          <th>Phone No.</th>
+          <th>Edit/Delete</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor = "let user of users | searchFilter : firstname : lastName : email : mobile">
+          <td><input type="radio" name="user" [value]="user.id" (change)="selectedUser = user"> </td>
+          <td><span>{{user.firstName}}</span></td>
+          <td><span>{{user.lastName}}</span></td>
+          <td><span>{{user.email}}</span></td>
+          <td><span>{{user.phoneNumber}}</span></td>
+          <td>
+            <button (click)="editUser(user)">Edit</button>&nbsp;
+            <button (click)="DeleteUser(user)">Delete</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </div>
-
-<div class="row future_bookings_blk futre_data_tbl" style="margin: 15px 0px;">
-  <div style="padding:15px;font-size: 13px; width: 100%;" class="table-responsive">
-   <h3 class="blk_ttl">Users Info.
-     <div id="btnContainer">
-       <button class="btn" [disabled]="!selectedUser" (click)="viewUser()"><i class="fa fa-eye"></i></button> 
-       <button class="btn" (click)="AddUser()"><i class="fa fa-user-plus"></i></button> 
-     </div>
-   </h3>
-
-   <div class="search-filters">
-    <div class="row">
-      <div class="col-md-4"></div>
-      <div class="col-md-2">
-        <input type="text" class="form-control input-sm" placeholder="Search By Frst Name"
-        [(ngModel)] = "firstname">
-      </div>
-      <div class="col-md-2">
-        <input type="text" class="form-control input-sm" placeholder="Search By Last Name"
-        [(ngModel)]="lastName">
-      </div>
-      <div class="col-md-2">
-        <input type="text" class="form-control input-sm" placeholder="Search By Email..."
-        [(ngModel)]="email">
-      </div>
-      <div class="col-md-2">
-        <input type="number" class="form-control input-sm" placeholder="Search By Phone..."
-        [(ngModel)]="mobile">
-      </div>
-    </div>
-  </div>
-  <hr>
-  <table class="table futhr_bkn_tbl" id="sort_table">
-    <thead>
-      <tr>
-        <th></th>
-        <th>First Name</th>
-        <th>Last Name</th>
-        <th>Email</th>
-        <th>Phone No.</th>
-        <th>Edit/Delete</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor = "let user of users | searchFilter : firstname : lastName : email : mobile">
-        <td><input type="radio" name="user" [value]="user.id" (change)="selectedUser = user"> </td>
-        <td><span>{{user.firstName}}</span></td>
-        <td><span>{{user.lastName}}</span></td>
-        <td><span>{{user.email}}</span></td>
-        <td><span>{{user.phoneNumber}}</span></td>
-        <td>
-          <button (click)="editUser(user)">Edit</button>&nbsp;
-          <button (click)="DeleteUser(user)">Delete</button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-</div>
-</div>
-<router-outlet></router-outlet>
+  <router-outlet></router-outlet>

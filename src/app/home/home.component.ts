@@ -11,7 +11,7 @@ export class HomeComponent implements OnInit {
 
 	ngOnInit(): void {
 	}
-
+	/*THIS FUNCTION IS USED TO NAVIGATE TO USERS COMPONENT*/
 	goToUsers (){
 		this.router.navigate(['/users'],{relativeTo : this.route});
 	}

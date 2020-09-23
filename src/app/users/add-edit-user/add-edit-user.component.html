@@ -1,0 +1,89 @@
+ <!-- Adding Editing User Block Start -->
+ <div class="modal" id="userModal">
+ 	<div class="modal-dialog">
+ 		<div class="modal-content">
+ 			<div class="modal-header">
+ 				<!-- Modal header -->
+ 				<h5>{{headerName}}</h5>
+ 				<button type="button" class="close"   (click)="onCancle()">
+ 					<span>&times;</span>
+ 				</button>
+ 			</div>
+ 			<!-- Model boay -->
+ 			<div class="modal-body">
+ 				<form [formGroup]="userProfileForm">
+ 					<div class="row">
+ 						<div class="col-md-6">
+ 							<div class="form-group">
+ 								<label for="firstname">First Name:</label>
+ 								<input type="text" class="form-control" formControlName="firstName" 
+ 								[(ngModel)] ="user.firstName" >
+ 								<span *ngIf="checkValidation && userProfileForm.controls['firstName'].status=='INVALID'"
+ 								class="help-block">Please enter a valid name..</span>
+ 							</div>
+ 						</div>
+ 						<div class="col-md-6">
+ 							<div class="form-group">
+ 								<label for="lastName">Last Name:</label>
+ 								<input type="text" class="form-control" formControlName="lastName"
+ 								[(ngModel)] ="user.lastName">
+ 								<span *ngIf="checkValidation && userProfileForm.controls['lastName'].status=='INVALID'" class="help-block">lease enter a valid name</span>
+ 							</div>
+ 						</div>
+ 					</div>
+ 					<div class="row">
+ 						<div class="col-md-6">
+ 							<div class="form-group">
+ 								<label for="email">Email:</label>
+ 								<input type="text" class="form-control" formControlName="email"
+ 								[(ngModel)] ="user.email" >
+ 								<span
+ 								*ngIf= "checkValidation && 
+ 								userProfileForm.controls['email'].status=='INVALID'"
+ 								class="help-block">Please enter a valid Email</span>
+ 							</div>
+ 						</div>
+ 						<div class="col-md-6">
+ 							<div class="form-group">
+ 								<label for="phoneNumber">Phone Number:</label>
+ 								<input type="number" class="form-control" formControlName="phoneNumber"
+ 								[(ngModel)] ="user.phoneNumber">
+ 								<span *ngIf="checkValidation && userProfileForm.controls['phoneNumber'].status=='INVALID'">Please enter a valid Phone Number</span>
+ 							</div>
+ 						</div>
+ 					</div>
+ 					<div class="row">
+ 						<div class="col-md-6">
+ 							<div class="form-group">
+ 								<label for="password">Password:</label>
+ 								<input type="password" class="form-control" formControlName="password"
+ 								[(ngModel)] ="user.password">
+ 								<span *ngIf= "checkValidation && 
+ 								userProfileForm.controls['password'].status=='INVALID'">Password should have minimum 8 characters, at least 1 uppercase letter, 1 lowercase letter and 1 number</span>
+ 							</div>
+ 						</div>
+ 						<div class="col-md-6">
+ 							<div class="form-group">
+ 								<label for="confirmPassword">Confirm Password:</label>
+ 								<input type="password" class="form-control" formControlName="confirmPassword"
+ 								[(ngModel)] ="user.confirmPassword">
+
+ 								<span
+ 								*ngIf="checkValidation && 
+ 								userProfileForm.controls['confirmPassword'].status=='INVALID'"
+ 								class="help-block">Passwords does not match.
+ 							</span>
+ 						</div>
+ 					</div>
+ 				</div>
+ 			</form>
+ 		</div>
+ 		<!-- Model Footer -->
+ 		<div class="modal-footer">
+ 			<button type="submit" class="btn btn-success" (click)="onSubmit()">
+ 			{{buttonName}}</button>
+ 			<button type="button" class="btn btn-secondary" (click)="onCancle()">Close</button>
+ 		</div>
+ 	</div>
+ </div>
+ 

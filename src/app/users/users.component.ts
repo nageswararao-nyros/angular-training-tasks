@@ -1,61 +1,52 @@
-import { Component, OnInit } from '@angular/core';
-import { Router} from '@angular/router'
-import { UsersService } from '../users.service';
+import { Component, OnInit,OnDestroy } from '@angular/core';
+import { Router,ActivatedRoute} from '@angular/router'
+import { UsersService } from '../service/users.service';
 import { FormBuilder,FormGroup,FormControl, AbstractControl,Validators, ValidatorFn, ValidationErrors} from '@angular/forms';
-import { CustomValidatorService } from '../custom-validator.service';
+import { CustomValidatorService } from '../service/custom-validator.service';
+import { User} from '../models/user';
+import { Subscription} from 'rxjs';
 declare var $: any
 @Component({
 	selector: 'app-users',
 	templateUrl: './users.component.html',
 	styleUrls: ['./users.component.css']
 })
-export class UsersComponent implements OnInit {
-	userProfileForm : any;
-	isFromEditMode : boolean = false;
-	firstname ="";
-	lastName = "";
-	email = "";
-	mobile="";
-	buttonName = 'Save';
-	headerName ='Add User';
-	checkValidation=false;
-	isPasswordMatched : boolean;
-	confirmValidationMessage : any;
-	selectedUser :any;
+export class UsersComponent implements OnInit,OnDestroy {
+	firstname : string ="";
+	lastName : string = "";
+	email: string = "";
+	mobile : string ="";
+	selectedUser :User;
+	/* INJECTING  THE REQUIRED SERVICES*/
 	constructor(private formBuilder : FormBuilder,
 		private userService : UsersService,
-		private validatorService : CustomValidatorService,private router: Router) {
-		this.userProfileForm = this.formBuilder.group({
-			id:new FormControl("1"),
-			firstName: new FormControl("",Validators.required),
-			lastName: new FormControl("",Validators.required),
-			email: new FormControl("",[Validators.required,Validators.email]),
-
-			password : new FormControl("",Validators.compose([Validators.required,
-				this.validatorService.patternValidator()])),
-
-			confirmPassword : new FormControl("",Validators.compose([Validators.required,
-				this.validatorService.patternValidator()])),
-
-			phoneNumber : new FormControl("",
-				[Validators.required,
-				Validators.pattern("^((\\+91-?)|0)?[0-9]{10}$")]),
-		},
-		{
-			validator: this.validatorService.MatchPassword('password', 'confirmPassword'),
-		});
-
-	}
-	title = 'Angular-Training';
-	users :any;
+		private validatorService : CustomValidatorService,private router: Router,
+		private activeRoute : ActivatedRoute) {}
+	users :User[] = [];
+	successMessage ="";
+	subscriber : Subscription;
 	ngOnInit() {
-		$("#userModal").modal('hide');
-		this.getUsers();
+		/*retrieving Query Params*/
+		this.subscriber = this.activeRoute.queryParams.subscribe((response) =>{
+			if(response.action)
+			{
+				if(response.action == "Edit"){
+					this.successMessage = "User Updated Successfully"
+				}
+				else{
+					this.successMessage ="User Added Successfully"
+				}
+			}
+			else{
+				this.successMessage = "";
+			}
+			this.getUsers();
+		})
 	}
-
-
+	/*THIS FUNCTION IS USED TO GET USERS INFORMATION AND SHOWING IN TABLE*/
 	getUsers(){
 		this.userService.getUsers().subscribe(response => {
+			console.log(response)
 			if(response.status===200){
 				if(response.body.length ===0){
 					console.log("No Users")
@@ -67,72 +58,16 @@ export class UsersComponent implements OnInit {
 			}
 		})
 	}
-	onSubmit() {
-		this.checkValidations();
-		// this.checkValidation = true;
-		if(this.userProfileForm.controls['password'].value == 
-			this.userProfileForm.controls['confirmPassword'].value)
-		{
-			this.isPasswordMatched = true; 
-		}
-
-		console.log(this.userProfileForm)
-		if(this.isFromEditMode == true)  {
-			if(this.checkValidation!=true){
-				let userData = this.userProfileForm.value;
-				this.userService.updateUser(userData).subscribe((response:any)=>{
-					if(response.status===200){
-						this.userProfileForm.reset();
-						console.log("success");
-						this.getUsers();
-						$("#userModal").modal('hide');
-					}
-				},err =>{
-					console.log(err)
-				})
-			}
-		}
-		console.log(this.userProfileForm.value);
-		if(this.checkValidation!=true){
-			let userData = this.userProfileForm.value;
-			this.userService.addUser(userData).subscribe((response:any)=>{
-				if(response.status===201){
-					this.userProfileForm.reset();
-					console.log("success");
-					this.getUsers();
-					$("#userModal").modal('hide');
-				}
-			},err =>{
-				console.log(err)
-			})
-		}
-		
-		this.isPasswordMatched = false; 
-		// this.isFromEditMode = false;
-		// this.checkValidation = false;
-	}
+	// THIS FUNCTION IS USED TO NAVIGAE ADD EDIT USER COMPONENT
+	// 0 INDICATES IT IS FOR ADD USER
 	AddUser() {
-		this.userProfileForm.reset();
-		this.buttonName="Save";
-		this.headerName = "Add User";
-		$("#userModal").modal('show');
-
+		this.router.navigate(['/users/edit',0]);
 	}
-
+	/*THIS FUNCTION IS USED TO NAVIGAE ADD EDIT USER COMPONENT AND PASSING ID FOR EDIT USER*/
 	editUser(user) {
-		console.log(user);
-		this.isFromEditMode = true;
-		this.buttonName= "Update";
-		this.headerName = "Edit User";
-		$("#userModal").modal('show');
-		this.userProfileForm.controls.firstName.setValue(user.firstName);
-		this.userProfileForm.controls.lastName.setValue(user.lastName);
-		this.userProfileForm.controls.email.setValue(user.email);
-		this.userProfileForm.controls.password.setValue(user.password);
-		this.userProfileForm.controls.confirmPassword.setValue(user.confirmPassword);
-		this.userProfileForm.controls.phoneNumber.setValue(user.phoneNumber);
-		this.userProfileForm.controls.id.setValue(user.id)
+		this.router.navigate(["/users/edit",user.id]);
 	}
+	/*THIS FUNCTION IS USED TO DELETE THE USER BASED ON ID AND UPDATING USERS INFO*/
 	DeleteUser(user) {
 		this.userService.deleteUser(user.id).subscribe((response : any) => {
 			console.log(response);
@@ -142,25 +77,13 @@ export class UsersComponent implements OnInit {
 			}
 		})
 	}
-	checkValidations() {
-		if((this.userProfileForm.controls['firstName'].status=='INVALID'||
-			this.userProfileForm.controls['lastName'].status=='INVALID' ||
-			this.userProfileForm.controls['email'].status=='INVALID' ||
-			this.userProfileForm.controls['password'].status=='INVALID' ||
-			this.userProfileForm.controls['confirmPassword'].status=='INVALID' ||
-			this.userProfileForm.controls['phoneNumber'].status=='INVALID')
-			|| (this.userProfileForm.controls['password'].value != 
-				this.userProfileForm.controls['confirmPassword'].value))
-		{ 
-			this.checkValidation = true;
-		}
-		else{
-			this.checkValidation = false;
-		}
-	}
+	/*THIS FUNCTION IS USED TO NAVIGATE TO USER-DETAIL COMPONENT*/
 	viewUser() {
-		console.log("ok");
 		this.router.navigate(['/users',this.selectedUser.id]);
+	}
+	/* THIS FUNCTION IS USED TO UNSUBSCRIBE THE SUBSCRIBER*/
+	ngOnDestroy() {
+		this.subscriber.unsubscribe();
 	}
 
 }
