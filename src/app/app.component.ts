@@ -11,9 +11,11 @@ declare var $: any
 	styleUrls: ['./app.component.css']
 })
 
-export class AppComponent  {
+export class AppComponent implements OnInit  {
+
 	title : string = "Angular Training"
 	showHead : boolean = false;
+	showSideMenuItem : any
 	constructor(private router : Router) {
 		/* HIDING NAVBAR IN LOGIN PAGE*/
 		this.router.events.forEach((event) => {
@@ -28,7 +30,17 @@ export class AppComponent  {
 		})
 
 	}
+	ngOnInit() {
 
+	}
+	showSideMenu(event) {
+		console.log(event)
+		this.showSideMenuItem = event;
+	}
+	hideSideMenu(event) {
+		console.log(event)
+		this.showSideMenuItem = event;
+	}
 }
 
 

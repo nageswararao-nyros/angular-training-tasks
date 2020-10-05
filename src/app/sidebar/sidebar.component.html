@@ -1,0 +1,23 @@
+<!-- <div class="sidebar">     -->
+	<!-- <div class="row">     -->
+		<!-- <div class="col-sm-12 btn btn-primary">    
+			Sidebar Component    
+		</div>   -->  
+	<!-- </div>     -->
+	<!-- <div class="row">    
+		<div class="col-sm-2">    
+			<button pButton type="button" class="btn btn-success" (click)="visibleSidebar1 = true"    
+			icon="pi pi-arrow-right primary"></button>    
+		</div>  
+	</div>   -->
+	<!-- <hr style="background-color:black" />     -->
+
+	<p-sidebar  [(visible)]="showSideBar" styleClass="sidebar" [style]="{'margin-top': '60px','width': '250px'}" [autoZIndex]="true" position="left">    
+		<!-- <div class="row" style="padding-bottom: 20px;">    
+			<div class="col-sm-12 btn btn-primary">    
+				Left Sidebar    
+			</div>    
+		</div>     -->
+		<button pButton type="button" class="ui-button-secondary" (click)="closeSidebar()">back</button>    
+	</p-sidebar>    
+<!-- </div> -->

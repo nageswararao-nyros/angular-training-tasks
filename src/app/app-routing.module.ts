@@ -7,12 +7,22 @@ import { PageNotFoundComponent} from './page-not-found/page-not-found.component'
 import { Authguard} from './service/auth-guard.service';
 import { LoginComponent } from './login/login.component';
 import { AddEditUserComponent} from './users/add-edit-user/add-edit-user.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { ChartsComponent } from './charts/charts.component'
 // Declaring Routes Array 
 const appRoutes : Routes =  [
 {
 	path : '',
 	redirectTo : '/home',
 	pathMatch : 'full'
+},
+// {
+// 	path : 'dashboard',
+// 	component : DashboardComponent
+// },
+{
+	path : 'charts',
+	component: ChartsComponent
 },
 { 
 	path : 'login',

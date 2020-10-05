@@ -13,11 +13,13 @@
 			<div class="modal-body">
 				<p> First Name : {{user?.firstName}} </p>
 				<p> Last Name : {{user?.lastName}} </p>
+				<p> Gender : {{user?.gender}} </p>
 				<p> Email : {{user?.email}} </p>
-				<p> Interests : </p>
-				<div *ngFor="let interest of user?.interests">
+				<p> Phone : {{user.phoneNumber}} </p>
+				<p> Address : {{user?.address}} </p>
+				<!-- <div *ngFor="let interest of user?.interests">
 					<p>	{{interest}}</p>
-				</div>
+				</div> -->
 
 			</div>
 
@@ -29,3 +31,6 @@
 		</div>
 	</div>
 </div>
+<ngx-spinner type="ball-beat" size="default">
+  <p style="font-size: 20px; color: white">Loading...</p>
+</ngx-spinner>

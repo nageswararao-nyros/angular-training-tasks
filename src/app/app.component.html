@@ -1,5 +1,7 @@
 
-<app-header *ngIf="showHead"></app-header>
+<app-header *ngIf="showHead" [hideSideBar] = "showSideMenuItem" (isSideNavSelected)="showSideMenu($event)"></app-header>
+<app-sidebar (hideSidebar)="hideSideMenu($event)"
+ [showSideBar] = "showSideMenuItem"></app-sidebar>
 <router-outlet></router-outlet>
 
 

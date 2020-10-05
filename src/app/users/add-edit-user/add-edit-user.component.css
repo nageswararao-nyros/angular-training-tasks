@@ -1,0 +1,29 @@
+@media only screen and (max-width:1440px){
+	.modal {
+		padding: 2px 5px;
+		font-size: 11px;
+	}
+}
+.form-group .form-control{
+	font-size: 15px;
+}
+.form-group label{
+	font-size: 15px
+}
+
+.modal-header .modal-footer {
+	font-size: 15px;
+	padding: 0.5rem;
+	border-radius: 5px 5px 0px 0px;
+}
+/*.treetableDate .ui-widget-content{
+    width: 80%; 
+}*/
+
+/*.calender {
+	height: 50px
+}*/
+
+.date-container ::ng-deep p-calendar {
+  height: 50px
+}

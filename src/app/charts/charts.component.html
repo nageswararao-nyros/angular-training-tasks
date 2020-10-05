@@ -1,0 +1,25 @@
+<div class="container">
+	<div class="row" style="margin-top: 10px">
+		<ul class="nav nav-pills" style="background-color: #f4f4fb">
+			<li class="nav-item">
+				<a class="nav-link"  [ngClass]="{'active': selectedChart =='column'}" (click)="getTravelData('column')">Column Chart</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link" [ngClass]="{'active': selectedChart =='line'}"(click)="getTravelData('line')">Line Chart</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link" [ngClass]="{'active': selectedChart =='bar'}"  (click)="getTravelData('bar')">Bar Chart</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link" [ngClass]="{'active': selectedChart =='pie'}" (click)="getTravelData('pie')">Pie Chart</a>
+			</li>
+		</ul>
+	</div>
+
+	<div class="pie-chart" style="border : 2px" *ngIf="chartOptions">
+		<highcharts-chart
+		[Highcharts] = "highcharts" 
+		[options] = "chartOptions">
+	</highcharts-chart>
+</div>
+</div>

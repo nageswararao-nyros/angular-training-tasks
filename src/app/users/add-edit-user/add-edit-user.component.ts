@@ -4,7 +4,9 @@ import { Router,ActivatedRoute,Params} from '@angular/router';
 import { UsersService } from '../../service/users.service';
 import { CustomValidatorService } from '../../service/custom-validator.service';
 import { User} from '../../models/user';
-import { Subscription} from 'rxjs'
+import { Subscription} from 'rxjs';
+import { NgxSpinnerService} from 'ngx-spinner';
+import * as moment from "moment";
 declare var $: any
 @Component({
 	selector: 'app-add-edit-user',
@@ -23,12 +25,15 @@ export class AddEditUserComponent implements OnInit,OnDestroy {
 	constructor(private formBuilder : FormBuilder,
 		private userService : UsersService,
 		private validatorService : CustomValidatorService,private router: Router,
-		private activeRoute : ActivatedRoute) {
+		private activeRoute : ActivatedRoute,private spinnerService : NgxSpinnerService) {
 		/* INITILIZING  USER PROFILE FORM USING FORMBUILDER*/
 		this.userProfileForm = this.formBuilder.group({
 			id:new FormControl(""),
 			firstName: new FormControl("",Validators.required),
 			lastName: new FormControl("",Validators.required),
+			gender : new FormControl("",Validators.required),
+		    address : new FormControl("",Validators.required),
+			// createdOn : new FormControl("",Validators.required),
 			email: new FormControl("",[Validators.required,Validators.email]),
 
 			password : new FormControl("",Validators.compose([Validators.required,
@@ -42,7 +47,7 @@ export class AddEditUserComponent implements OnInit,OnDestroy {
 				Validators.pattern("^((\\+91-?)|0)?[0-9]{10}$")]),
 		},
 		{
-			validator: this.validatorService.MatchPassword('password', 'confirmPassword'),
+			validator: this.validatorService.matchPassword('password', 'confirmPassword'),
 		});
 	}
 	ngOnInit() {
@@ -64,14 +69,16 @@ export class AddEditUserComponent implements OnInit,OnDestroy {
 			this.userProfileForm.reset();
 		}
 		else {
+			this.spinnerService.show();
 			this.isFromEditMode = true;
 			this.buttonName = "Update";
-			this.headerName = "Edit User"
+			this.headerName = "Edit User";
 			this.userService.getUser(id).subscribe((response: any) =>{
 				console.log(response);
 				if(response.status == 200){
 					this.user = response.body;
 				}
+				this.spinnerService.hide();
 			},err =>{
 				console.log(err)
 			});
@@ -85,10 +92,15 @@ export class AddEditUserComponent implements OnInit,OnDestroy {
 		if(this.isFromEditMode == true)  {
 			/*EDITING THE USER  */
 			if(this.checkValidation!=true){
+				this.spinnerService.show()
+                // this.user.createdOn =  moment(this.user.createdOn).format("YYYY/MM/DD");
+                // console.log(this.user.createdOn)
 				let userData = this.user;
 				this.userService.updateUser(userData).subscribe((response:any)=>{
 					if(response.status===200){
+						this.spinnerService.hide()
 						this.userProfileForm.reset();
+
 						console.log("success");
 						// this.userService.getUsers();
 						this.router.navigate(['users'],{queryParams : { action : "Edit"}})
@@ -102,9 +114,11 @@ export class AddEditUserComponent implements OnInit,OnDestroy {
 		/* ADDING USER IN JSON FILE*/
 		else{
 			if(this.checkValidation!=true){
+				this.spinnerService.show()
 				let userData = this.userProfileForm.value;
 				this.userService.addUser(userData).subscribe((response:any)=>{
 					if(response.status===201){
+						this.spinnerService.hide()
 						this.userProfileForm.reset();
 						console.log("success");
 						// this.userService.getUsers();
@@ -125,8 +139,9 @@ export class AddEditUserComponent implements OnInit,OnDestroy {
 			this.userProfileForm.controls['email'].status=='INVALID' ||
 			this.userProfileForm.controls['password'].status=='INVALID' ||
 			this.userProfileForm.controls['confirmPassword'].status=='INVALID' ||
-			this.userProfileForm.controls['phoneNumber'].status=='INVALID')
-			|| (this.userProfileForm.controls['password'].value != 
+			this.userProfileForm.controls['phoneNumber'].status=='INVALID') ||
+			this.userProfileForm.controls['gender'].status == 'INVALID'||
+			 (this.userProfileForm.controls['password'].value != 
 				this.userProfileForm.controls['confirmPassword'].value))
 		{ 
 			this.checkValidation = true;

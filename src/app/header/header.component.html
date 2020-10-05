@@ -1,8 +1,18 @@
 <!-- Navbar block start -->
 <nav class="navbar navbar-expand-sm bg-success navbar-dark">
 <ul class="navbar-nav mr-auto"> 
+   <li class="nav-item">
+   <!--  <button  style="background-color: green"> -->
+      <i class="fa fa-bars" aria-hidden="true" style="font-size: 20px;padding: 11px; color: white"
+      (click)="onSideNavShow($event)"></i>
+    
+   <!--  <a class="nav-link" routerLink = "/home">Home</a> -->
+  </li>
    <li class="nav-item" routerLinkActive= "active">
     <a class="nav-link" routerLink = "/home">Home</a>
+  </li>
+    <li class="nav-item" routerLinkActive= "active">
+    <a class="nav-link" routerLink = "/charts">Charts</a>
   </li>
   <li class="nav-item" routerLinkActive= "active">
     <a class="nav-link" routerLink = "/users">Users</a>

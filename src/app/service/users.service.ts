@@ -45,5 +45,10 @@ export class UsersService {
     console.log(url)
     return this.http.delete<any>(url, { observe: 'response', headers: headers });
   }
+
+  public getTravelData() {
+    const url = environment.apiUrl+'/travelData';
+    return this.http.get<any>(url,{observe : 'response'})
+  }
   
 }

@@ -38,3 +38,21 @@ form{
 	font-size: 13px;
 	margin-top:20px;
 }
+
+.btnFacebook {
+	background-color: #3B5998;
+	color: white;
+}
+
+.btnGoogle {
+  background-color: #dd4b39;
+  color: white;
+}
+.btnUser {
+	background-color: #28a745;
+	color: white;
+}
+
+.hr {
+   padding-top: 10px
+}

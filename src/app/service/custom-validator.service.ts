@@ -22,7 +22,7 @@ export class CustomValidatorService {
 		};
 	}
     /*THIS FUNCTION IS USED TO VALIDATE PASSWORD AND CONFIRM PASSWORD MATCHED OR NOT*/
-	MatchPassword(password: string, confirmPassword: string) {
+	matchPassword(password: string, confirmPassword: string) {
 		return (formGroup: FormGroup) => {
 			const passwordControl = formGroup.controls[password];
 			const confirmPasswordControl = formGroup.controls[confirmPassword];

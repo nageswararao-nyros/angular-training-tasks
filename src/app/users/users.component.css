@@ -76,3 +76,13 @@ input.ng-invalid.ng-touched{
  #btnContainer .btn:hover{color: #fff;}
  #btnContainer .btn i{font-size: 20px;}
  #btnContainer .btn.active{background: none;box-shadow: none;opacity: 1;}
+
+ .pagination .my-pagination /deep/ .ngx-pagination .current {
+  background: #1ba655 !important;
+}
+
+.pagination{
+  justify-content: center;
+}
+
+

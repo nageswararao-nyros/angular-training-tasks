@@ -7,10 +7,10 @@
      <h3 class="blk_ttl">Users Info.
        <div id="btnContainer">
          <button class="btn" [disabled]="!selectedUser" (click)="viewUser()"><i class="fa fa-eye"></i></button>
-         <button class="btn" (click)="AddUser()"><i class="fa fa-user-plus"></i></button> 
+         <button class="btn" (click)="addUser()"><i class="fa fa-user-plus"></i></button> 
        </div>
      </h3>
-    <!--FILTERS BLOCK  -->
+     <!--FILTERS BLOCK  -->
      <div class="search-filters">
       <div class="row">
         <div class="col-md-4"></div>
@@ -46,19 +46,31 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor = "let user of users | searchFilter : firstname : lastName : email : mobile">
-          <td><input type="radio" name="user" [value]="user.id" (change)="selectedUser = user"> </td>
-          <td><span>{{user.firstName}}</span></td>
-          <td><span>{{user.lastName}}</span></td>
-          <td><span>{{user.email}}</span></td>
-          <td><span>{{user.phoneNumber}}</span></td>
-          <td>
-            <button (click)="editUser(user)">Edit</button>&nbsp;
-            <button (click)="DeleteUser(user)">Delete</button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+        <tr *ngFor = "let user of users 
+        | searchFilter : firstname : lastName : email : mobile 
+        | paginate: paginationConfig">
+        <td><input type="radio" name="user" [value]="user.id" (change)="selectedUser = user"> </td>
+        <td><span>{{user.firstName}}</span></td>
+        <td><span>{{user.lastName}}</span></td>
+        <td><span>{{user.email}}</span></td>
+        <td><span>{{user.phoneNumber}}</span></td>
+        <td>
+          <button (click)="editUser(user)">Edit</button>&nbsp;
+          <button (click)="deleteUser(user)">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <hr>
+  <div class="pagination">
+    <pagination-controls class="my-pagination" (pageChange)="pageChanged($event)"></pagination-controls>
   </div>
 </div>
-  <router-outlet></router-outlet>
+
+
+</div>
+<ngx-spinner type="ball-beat" size="default">
+  <p style="font-size: 20px; color: white">Loading...</p>
+</ngx-spinner>
+<p-toast position="top-right"></p-toast>
+<router-outlet></router-outlet>

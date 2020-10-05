@@ -2,7 +2,8 @@ import { Component, OnInit,ElementRef,OnDestroy } from '@angular/core';
 import {Router,ActivatedRoute,Params} from '@angular/router';
 import { UsersService} from '../../service/users.service';
 import { Subscription} from 'rxjs';
-import { User } from '../../models/user'
+import { User } from '../../models/user';
+import { NgxSpinnerService } from 'ngx-spinner'
 declare var $: any
 @Component({
 	selector: 'app-user-detail',
@@ -14,7 +15,7 @@ export class UserDetailComponent implements OnInit,OnDestroy{
 	subscriber : Subscription;
 	user : User;
 	constructor(private router : Router,private activatedRoute : ActivatedRoute,
-		private userService: UsersService) { }
+		private userService: UsersService,private spinnerService : NgxSpinnerService) { }
 	ngOnInit(): void {
 		/* RETRIEVING THE USER ID THROUGH ROUTE*/
 		this.subscriber = this.activatedRoute.params.subscribe((params: Params) =>{
@@ -25,10 +26,12 @@ export class UserDetailComponent implements OnInit,OnDestroy{
 	};
 	/* THIS METHOD IS USED TO GET DATA BASED ON USER ID*/
 	getUser(){
+		this.spinnerService.show();
 		let data = this.userId;
 		this.userService.getUser(data).subscribe(response =>{
 			if(response.status === 200){
 				this.user = response.body;
+				this.spinnerService.hide();
 				console.log(response)
 				console.log(this.user);
 			}
@@ -43,6 +46,4 @@ export class UserDetailComponent implements OnInit,OnDestroy{
 	ngOnDestroy() {
 		this.subscriber.unsubscribe();
 	}
-
-
 }
